@@ -1,5 +1,12 @@
 name: main to be used as workflow deploy
-on: workflow_call
+on: 
+    workflow_call:
+        inputs:
+            artifact-name:
+                description: The name of the deployable artifact files
+                required:  false
+                default: dist
+                type: string
 jobs:
     deploy:
         runs-on: ubuntu-latest
@@ -7,8 +14,8 @@ jobs:
             - name: Get build artifacts
               uses: actions/download-artifact@v3
               with:
-                name: dist-files
-            - name: Output contents
+                name: ${{inputs.artifact-name}}
+            - name: List my files
               run: ls
             - name: Deploy
               run: echo "Deploying..."
