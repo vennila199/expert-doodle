@@ -1,8 +1,14 @@
-name: Reusable deploy
+name: main to be used as workflow deploy
 on: workflow_call
 jobs:
     deploy:
         runs-on: ubuntu-latest
         steps:
-        - name: Output information
-          run: echo "deploying and uploading"
+            - name: Get build artifacts
+              uses: actions/download-artifact@v3
+              with:
+                name: dist-files
+            - name: Output contents
+              run: ls
+            - name: Deploy
+              run: echo "Deploying..."
