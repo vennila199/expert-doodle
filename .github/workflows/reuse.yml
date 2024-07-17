@@ -7,8 +7,14 @@ on:
                 required:  false
                 default: dist
                 type: string
+        outputs:
+            result:
+                description: the result of deployment operation
+                value: ${{ jobs.deploy.outputs.outcome}}
 jobs:
     deploy:
+        outputs:
+             outcome: ${{ steps.publish.outputs.step-result}}
         runs-on: ubuntu-latest
         steps:
             - name: Get build artifacts
@@ -19,3 +25,6 @@ jobs:
               run: ls
             - name: Deploy
               run: echo "Deploying..."
+            - name: set Result output
+              id: publish
+              run: echo "step-result=success" >> $GITHUB_OUTPUT
